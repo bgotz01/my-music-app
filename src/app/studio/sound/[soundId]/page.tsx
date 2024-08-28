@@ -11,7 +11,7 @@ import Link from 'next/link';
 import LayerList from '../../components/LayerList';
 import { useTheme } from '@/context/ThemeContext';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
+
 
 interface Sound {
   name: string;

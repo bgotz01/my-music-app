@@ -80,9 +80,11 @@ const StudioPage = () => {
 
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center p-4 pt-10 ${theme === 'light' ? 'bg-gray-100 text-black' : 'bg-dark text-white'}`}>
-      <h1 className="text-center text-5xl md:pl-12 font-bold text-transparent bg-clip-text bg-gradient-to-br from-indigo-500 to-fuchsia-500 mb-8">
-        Studio
-      </h1>
+      <h1 className="text-center md:text-left text-5xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-gray-300 via-gray-400 to-gray-600 mb-8 leading-tight tracking-tight md:pl-12">
+  Studio
+</h1>
+
+
       <div className="space-y-6 mb-10 flex flex-col items-center">
         <Link href="/studio/sound/upload">
           <button className="bg-buttonBackground text-buttonText text-xl font-bold py-4 px-8 rounded shadow-md hover:bg-buttonHover">

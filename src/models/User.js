@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   solanaWallet: { type: String },
   sounds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Sound' }], // Reference to the Sound schema
   layers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Layer' }], // Reference to the Layer schema
+  profilePic: { type: String } 
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);

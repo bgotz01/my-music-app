@@ -68,16 +68,22 @@ server.get('/api/userinfo', async (req, res) => {
     const user = await User.findById(decoded.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
+   
     res.status(200).json({
       username: user.username,
       email: user.email,
       solanaWallet: user.solanaWallet,
-      userId: user._id
+      userId: user._id,
+      profilePic: user.profilePic, 
+      instagram: user.instagram,   
+      tiktok: user.tiktok
     });
   } catch (error) {
+    console.error('Error fetching user info:', error); // Log error for debugging
     res.status(400).json({ message: 'Invalid token' });
   }
 });
+
 
 // Update user info route
 server.put('/api/userinfo', async (req, res) => {
@@ -86,11 +92,11 @@ server.put('/api/userinfo', async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, 'your_jwt_secret');
-    const { email, solanaWallet } = req.body;
+    const { email, solanaWallet, profilePic, instagram, tiktok } = req.body; // Include profilePic in destructuring
 
     const updatedUser = await User.findByIdAndUpdate(
       decoded.id,
-      { email, solanaWallet },
+      { email, solanaWallet, profilePic, instagram, tiktok }, // Update profilePic in the database
       { new: true }
     );
 
@@ -100,12 +106,17 @@ server.put('/api/userinfo', async (req, res) => {
       username: updatedUser.username,
       email: updatedUser.email,
       solanaWallet: updatedUser.solanaWallet,
-      userId: updatedUser._id
+      profilePic: updatedUser.profilePic, // Include profilePic in response
+      instagram: updatedUser.instagram,
+      tiktok: updatedUser.tiktok,
+      userId: updatedUser._id,
     });
   } catch (error) {
+    console.error('Error updating user info:', error);
     res.status(400).json({ message: 'Invalid token' });
   }
 });
+
 
 // Route to fetch producers who have uploaded sounds
 server.get('/api/usernames', async (req, res) => {
@@ -229,7 +240,7 @@ server.post('/api/upload-image/:soundId', upload.single('file'), async (req, res
 
 
 
-// Route to get all sounds or filter by username
+// Route to get all sounds 
 server.get('/api/sounds', async (req, res) => {
   try {
     const { username } = req.query;

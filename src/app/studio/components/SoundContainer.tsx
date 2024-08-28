@@ -1,4 +1,3 @@
-
 // src/app/studio/components/SoundContainer.tsx
 
 import React from 'react';
@@ -58,7 +57,7 @@ const SoundContainer: React.FC<SoundContainerProps> = ({
       }`}
     >
       <div className="flex items-start">
-        <div className="w-24 h-24 border border-gray-400 rounded-md overflow-hidden mr-4">
+        <div className="w-24 h-24 border border-gray-400 dark:border-gray-600 rounded-md overflow-hidden mr-4">
           {sound.imageUrl ? (
             <Image
               src={sound.imageUrl}
@@ -68,45 +67,43 @@ const SoundContainer: React.FC<SoundContainerProps> = ({
               className="object-cover"
             />
           ) : (
-            <div className="flex items-center justify-center h-full text-xs text-gray-500">
+            <div className="flex items-center justify-center h-full text-xs text-gray-500 dark:text-gray-400">
               No Image
             </div>
           )}
         </div>
         <div className="flex-grow">
-          <h2 className="text-xl font-bold mb-2">
+          <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
             {sound.name}{' '}
-            <span className="text-sm font-normal text-gray-500">
+            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
               by{' '}
               <Link href={`/studio/${sound.username}`} legacyBehavior>
-                <a className="underline hover:text-blue-500">@{sound.username}</a>
+                <a className="underline hover:text-blue-500 dark:hover:text-blue-300">@{sound.username}</a>
               </Link>
             </span>
           </h2>
-          {/* Remove the audio element to prevent native playback controls */}
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center">
               <button
                 onClick={() => onLike(sound._id, 'sound')}
-                className="flex items-center text-buttonText bg-buttonBackground border border-black rounded-full py-2 px-4 hover:bg-buttonHover mr-2"
+                className="flex items-center text-buttonText bg-buttonBackground dark:text-white dark:bg-gray-700 border border-black dark:border-gray-500 rounded-full py-2 px-4 hover:bg-buttonHover dark:hover:bg-gray-600 mr-2"
               >
                 <FaHeart />
               </button>
-              <span>{sound.likes?.length ?? 0}</span>
+              <span className="text-gray-700 dark:text-gray-300">{sound.likes?.length ?? 0}</span>
             </div>
             <Link href={`/studio/sound/${sound._id}`}>
-              <button className="bg-buttonBackground hover:bg-buttonHover text-buttonText font-bold py-2 px-4 rounded">
+              <button className="bg-buttonBackground hover:bg-buttonHover text-buttonText dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white font-bold py-2 px-4 rounded">
                 Layers ({sound.layerCount})
               </button>
             </Link>
-            <div className="flex items-center">
+            <div className="flex items-center text-gray-700 dark:text-gray-300">
               <FaComment className="mr-2" />
               <span>{sound.comments?.length ?? 0}</span>
             </div>
-            {/* Play button to control the AudioPlayer */}
             <button
               onClick={onPlay}
-              className={`text-buttonText bg-buttonBackground border border-black rounded-full py-2 px-4 hover:bg-buttonHover ${
+              className={`text-buttonText bg-buttonBackground dark:text-white dark:bg-gray-700 border border-black dark:border-gray-500 rounded-full py-2 px-4 hover:bg-buttonHover dark:hover:bg-gray-600 ${
                 isCurrent ? 'font-bold' : ''
               }`}
             >
@@ -115,14 +112,14 @@ const SoundContainer: React.FC<SoundContainerProps> = ({
           </div>
           <div className="mt-4">
             <details>
-              <summary className="font-bold">Comments</summary>
+              <summary className="font-bold text-gray-900 dark:text-white">Comments</summary>
               {sound.comments?.map((comment) => (
-                <div key={comment._id} className="border-b border-gray-300 py-2 flex justify-between items-center">
-                  <p className="text-sm">
+                <div key={comment._id} className="border-b border-gray-300 dark:border-gray-600 py-2 flex justify-between items-center">
+                  <p className="text-sm text-gray-700 dark:text-gray-300">
                     <strong>@{comment.username}:</strong> {comment.comment}
                   </p>
                   {user && user._id === comment.userId && (
-                    <button onClick={() => onDeleteComment(sound._id, comment._id)} className="text-red-500 hover:text-red-700">
+                    <button onClick={() => onDeleteComment(sound._id, comment._id)} className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-600">
                       <FaTrash />
                     </button>
                   )}
@@ -141,11 +138,11 @@ const SoundContainer: React.FC<SoundContainerProps> = ({
                   type="text"
                   name="comment"
                   placeholder="Add a comment..."
-                  className="border border-gray-300 rounded px-4 py-2 mb-2"
+                  className="border border-gray-300 dark:border-gray-600 rounded px-4 py-2 mb-2 text-gray-900 dark:text-white bg-white dark:bg-gray-800"
                 />
                 <button
                   type="submit"
-                  className="bg-buttonBackground text-buttonText font-bold py-2 px-4 rounded hover:bg-buttonHover"
+                  className="bg-buttonBackground text-buttonText dark:bg-gray-700 dark:text-white font-bold py-2 px-4 rounded hover:bg-buttonHover dark:hover:bg-gray-600"
                 >
                   Comment
                 </button>

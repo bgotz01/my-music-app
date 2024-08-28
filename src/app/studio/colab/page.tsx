@@ -200,9 +200,10 @@ const ColabPage: React.FC = () => {
         theme === 'light' ? 'bg-light text-light' : 'bg-dark text-dark'
       }`}
     >
-      <h1 className="text-center text-5xl md:pl-12 font-bold text-transparent bg-clip-text bg-gradient-to-br from-indigo-500 to-fuchsia-500 mb-8">
-        Collaborate on Beats
-      </h1>
+      <h1 className="text-center md:text-left text-5xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-gray-300 via-gray-400 to-gray-600 mb-8 leading-tight tracking-tight md:pl-12">
+  Layer Up
+</h1>
+
       <div className="w-full px-6 max-w-2xl mx-auto">
         <SoundFilter
           onFilterChange={handleFilterChange}

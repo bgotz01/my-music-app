@@ -6,12 +6,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '../../context/ThemeContext';
+import ImageUpload from '@/app/studio/components/ImageUpload'; // Import ImageUpload component
+import Image from 'next/image'; // Import Image component
 
 const Dashboard = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [solanaWallet, setSolanaWallet] = useState('');
   const [userId, setUserId] = useState('');
+  const [profilePic, setProfilePic] = useState<string | null>(null); // State for profile picture URL
   const [editEmail, setEditEmail] = useState('');
   const [editSolanaWallet, setEditSolanaWallet] = useState('');
   const [editInstagram, setEditInstagram] = useState('');
@@ -19,6 +22,7 @@ const Dashboard = () => {
   const [instagram, setInstagram] = useState('');
   const [tiktok, setTiktok] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const [profilePicChanged, setProfilePicChanged] = useState(false); // State to track if profile picture changed
   const router = useRouter();
   const { theme } = useTheme();
 
@@ -34,7 +38,7 @@ const Dashboard = () => {
           },
         })
         .then((response) => {
-          const { username, email, solanaWallet, userId, instagram, tiktok } =
+          const { username, email, solanaWallet, userId, instagram, tiktok, profilePic } =
             response.data;
           setUsername(username);
           setEmail(email);
@@ -42,6 +46,7 @@ const Dashboard = () => {
           setUserId(userId);
           setInstagram(instagram);
           setTiktok(tiktok);
+          setProfilePic(profilePic); // Set profile picture URL
         })
         .catch((error) => {
           console.error('Error fetching user info:', error);
@@ -67,6 +72,7 @@ const Dashboard = () => {
           solanaWallet: editSolanaWallet || solanaWallet,
           instagram: editInstagram || instagram,
           tiktok: editTiktok || tiktok,
+          profilePic: profilePicChanged ? profilePic : undefined, // Include profilePic only if it changed
         },
         {
           headers: {
@@ -76,16 +82,23 @@ const Dashboard = () => {
       );
 
       if (response.status === 200) {
-        const { email, solanaWallet, instagram, tiktok } = response.data;
+        const { email, solanaWallet, instagram, tiktok, profilePic } = response.data;
         setEmail(email);
         setSolanaWallet(solanaWallet);
         setInstagram(instagram);
         setTiktok(tiktok);
+        setProfilePic(profilePic); // Update profile picture URL
         setEditMode(false);
+        setProfilePicChanged(false); // Reset profile picture change state
       }
     } catch (error) {
       console.error('Error updating user info:', error);
     }
+  };
+
+  const handleImageUploadComplete = (url: string) => {
+    setProfilePic(url);
+    setProfilePicChanged(true); // Set profile picture change state
   };
 
   return (
@@ -102,6 +115,37 @@ const Dashboard = () => {
         }`}
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Welcome, {username}</h2>
+        
+        {/* Profile Picture Section */}
+        <div className="flex justify-center mb-6">
+          {profilePic ? (
+            <div className="text-center">
+              <Image
+                src={profilePic}
+                alt="Profile Picture"
+                width={150}
+                height={150}
+                className="rounded-full mb-4"
+              />
+              {profilePicChanged && (
+                <button
+                  className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition"
+                  onClick={handleEdit}
+                >
+                  Save Profile Picture
+                </button>
+              )}
+            </div>
+          ) : (
+            <div className="text-center">
+              <p>No profile picture found. Please upload one.</p>
+              <div className="w-48 h-48 mt-4">
+                <ImageUpload onUploadComplete={handleImageUploadComplete} />
+              </div>
+            </div>
+          )}
+        </div>
+
         {!editMode ? (
           <div className="space-y-4">
             <div>

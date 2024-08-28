@@ -1,5 +1,3 @@
-// src/components/Navbar.tsx
-
 "use client";
 
 import React from 'react';
@@ -7,6 +5,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useTheme } from '../context/ThemeContext'; // Import useTheme hook
 import Image from 'next/image'; // Import the Image component
+import { FiSun, FiMoon } from 'react-icons/fi'; // Import sun and moon icons from react-icons
 
 const WalletMultiButtonDynamic = dynamic(
   async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
@@ -37,15 +36,14 @@ const Navbar = () => {
             Vision
           </Link>
           <Link href="/studio" className="hover:underline">
-            My Studio
+            Studio
           </Link>
-          
           <Link href="/studio/colab" className="hover:underline">
             Colab
           </Link>
           <WalletMultiButtonDynamic />
           <button onClick={toggleTheme} className="ml-4">
-            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+            {theme === 'light' ? <FiMoon size={24} /> : <FiSun size={24} />}
           </button>
         </div>
       </div>
